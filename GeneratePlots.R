@@ -26,20 +26,22 @@ for(curDate in unique(covid$date)){
   
   p1 <- ggplot(data=curData[curData$location==loc,])+
           geom_abline(slope=0.05, color="#FF0000", size = 1)+
-          geom_path(aes(x=new_cases,y=new_deaths, color=as.Date(date, origin = "2019-12-31")), size=1)+
+          geom_path(aes(x=new_cases_smoothed,y=new_deaths_smoothed, color=as.Date(date, origin = "2019-12-31")), size=1)+
           geom_point(aes(x=new_cases,y=new_deaths, color=as.Date(date, origin = "2019-12-31")), size=1)+
           theme(legend.position="none")
   
   
   p2 <- ggplot(data=curData[curData$location==loc,])+
-          geom_path(aes(x=as.Date(date),y=new_cases, color=as.Date(date, origin = "2019-12-31")), size=1)+
+          geom_path(aes(x=as.Date(date),y=new_cases_smoothed, color=as.Date(date, origin = "2019-12-31")), size=1)+
+          geom_point(aes(x=as.Date(date),y=new_cases, color=as.Date(date, origin = "2019-12-31")), size=1)+
           theme(legend.position="none")+
           xlab("")+
           scale_x_date(date_labels = "%Y-%m-%d")
   
   
   p3 <- ggplot(data=curData[curData$location==loc,])+
-          geom_path(aes(x=as.Date(date),y=new_deaths, color=as.Date(date, origin = "2019-12-31")), size=1)+
+          geom_path(aes(x=as.Date(date),y=new_deaths_smoothed, color=as.Date(date, origin = "2019-12-31")), size=1)+
+          geom_point(aes(x=as.Date(date),y=new_deaths, color=as.Date(date, origin = "2019-12-31")), size=1)+
           theme(legend.position="none")+
           xlab("")+
           scale_x_date(date_labels = "%Y-%m-%d")
