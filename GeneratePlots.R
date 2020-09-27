@@ -9,9 +9,11 @@ unique(covid$location)
 date = covid[covid$location=="United States",]$date
 totalCases = covid[covid$location=="United States",]$total_cases
 totalDeaths = date = covid[covid$location=="United States",]$total_deaths
+totaltests = date = covid[covid$location=="United States",]$total_tests
 
 plot(date,totalCases)
 plot(date,totalDeaths)
+plot(date,totalTests)
 
 # GGPlot graphs
 library(ggplot2)
@@ -22,9 +24,9 @@ lay <- rbind(c(1,1,2,2),
              c(4,4,5,5),
              c(4,4,6,6))
 loc <- "United States"
-curDate <- "2020-09-20"
+curDate <- "2020-09-10"
 for(curDate in unique(covid$date)){
-  curData <- covid[as.Date(covid$date)<as.Date(curDate),]
+  curData <- covid[as.Date(covid$date, origin="2019-12-31")<=as.Date(curDate, origin = "2019-12-31"),]
   
   p1 <- ggplot(data=curData[curData$location==loc,])+
           geom_abline(slope=0.05, color="#FF0000", size = 1)+
@@ -32,7 +34,10 @@ for(curDate in unique(covid$date)){
           geom_point(aes(x=new_cases,y=new_deaths, color=as.Date(date, origin = "2019-12-31")), size=1)+
           xlab("New Cases")+
           ylab("New Deaths")+
-          theme(legend.position="none")
+          annotate("text", x=70000,y=3500,label="DEATH RATE = 5%")+
+          annotate("text", x=10000,y=3500,label="HIGH DEATH RATE")+
+          ggtitle(paste(loc,curDate, sep=" "))+
+          theme(legend.position="none", plot.title=element_text(hjust=0.5))
   
   p2 <- ggplot(data=curData[curData$location==loc,])+
           geom_abline(slope=10, color="#FF0000", size = 1)+
@@ -40,6 +45,8 @@ for(curDate in unique(covid$date)){
           geom_point(aes(x=new_cases,y=new_tests, color=as.Date(date, origin = "2019-12-31")), size=1)+
           xlab("New Cases")+
           ylab("New Tests")+
+          annotate("text", x=70000,y=700000,label="POSITIVE RATE = 10%")+
+          annotate("text", x=10000,y=1000000,label="LOW POSITIVE RATE")+
           theme(legend.position="none")
   
   
@@ -84,13 +91,14 @@ for(curDate in unique(covid$date)){
             geom_bar(aes(x=totalsLabs,y=totals), stat="identity")+
             theme(legend.position="none", plot.title = element_text(hjust = 0.5))+
             xlab("")+
-            ggtitle("Total")+
+            ylab("")+
+            ggtitle("Total (Log Scale)")+
             scale_y_log10()
   
   p4 <- grid.arrange(p1,cases,deaths,p2, tests, bars, layout_matrix=lay)
   
  
-  ggsave(paste("./plots/",curDate,".jpg",sep=""), p4, width = 14, heigh=7)
+  ggsave(paste("./plots/",curDate,".jpg",sep=""), p4, width = 16, heigh=9)
 }
 
 
