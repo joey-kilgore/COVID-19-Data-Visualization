@@ -28,14 +28,18 @@ curDate <- "2020-09-10"
 for(curDate in unique(covid$date)){
   curData <- covid[as.Date(covid$date, origin="2019-12-31")<=as.Date(curDate, origin = "2019-12-31"),]
   
+  maxCases <- max(curData[curData$location==loc,]$new_cases, na.rm=TRUE)
+  maxDeaths <- max(curData[curData$location==loc,]$new_deaths, na.rm=TRUE)
+  maxTests <- max(curData[curData$location==loc,]$new_tests, na.rm=TRUE)
+  
   p1 <- ggplot(data=curData[curData$location==loc,])+
           geom_abline(slope=0.05, color="#FF0000", size = 1)+
           geom_path(aes(x=new_cases_smoothed,y=new_deaths_smoothed, color=as.Date(date, origin = "2019-12-31")), size=1)+
           geom_point(aes(x=new_cases,y=new_deaths, color=as.Date(date, origin = "2019-12-31")), size=1)+
           xlab("New Cases")+
           ylab("New Deaths")+
-          annotate("text", x=70000,y=3500,label="DEATH RATE = 5%")+
-          annotate("text", x=10000,y=3500,label="HIGH DEATH RATE")+
+          annotate("text", x=maxCases*0.9,y=maxCases*0.9*0.05,label="DEATH RATE = 5%")+
+          annotate("text", x=maxCases*0.1,y=maxDeaths*0.9,label="HIGH DEATH RATE")+
           ggtitle(paste(loc,curDate, sep=" "))+
           theme(legend.position="none", plot.title=element_text(hjust=0.5))
   
@@ -45,8 +49,8 @@ for(curDate in unique(covid$date)){
           geom_point(aes(x=new_cases,y=new_tests, color=as.Date(date, origin = "2019-12-31")), size=1)+
           xlab("New Cases")+
           ylab("New Tests")+
-          annotate("text", x=70000,y=700000,label="POSITIVE RATE = 10%")+
-          annotate("text", x=10000,y=1000000,label="LOW POSITIVE RATE")+
+          annotate("text", x=maxCases*0.9,y=maxCases*0.9*10,label="POSITIVE RATE = 10%")+
+          annotate("text", x=maxCases*0.1,y=maxTests*0.9,label="LOW POSITIVE RATE")+
           theme(legend.position="none")
   
   
