@@ -23,8 +23,8 @@ lay <- rbind(c(1,1,2,2),
              c(1,1,3,3),
              c(4,4,5,5),
              c(4,4,6,6))
-loc <- "United States"
-curDate <- "2020-11-28"
+loc <- "Italy"
+curDate <- "2020-11-20"
 for(curDate in unique(covid$date)){
   curData <- covid[as.Date(covid$date, origin="2019-12-31")<=as.Date(curDate, origin = "2019-12-31"),]
   
@@ -72,8 +72,8 @@ for(curDate in unique(covid$date)){
           ylab("")+
           ggtitle("New Deaths")+
           scale_x_date(date_labels = "%Y-%m-%d")+
-          geom_hline(yintercept=2977, linetype="dashed", color="red")+
-          annotate("text", x=date("2020-01-15"),y=3000,label="2,977 Deaths in 9/11 Attack")
+          geom_hline(yintercept=2977, size=1, linetype="dashed", color="red")+
+          annotate("text", x=as.Date("2020-02-15"),y=3500,label="2,977 Deaths in 9/11 Attack")
   
   tests <- ggplot(data=curData[curData$location==loc,])+
           geom_path(aes(x=as.Date(date),y=new_tests_smoothed, color=as.Date(date, origin = "2019-12-31")), size=1)+
