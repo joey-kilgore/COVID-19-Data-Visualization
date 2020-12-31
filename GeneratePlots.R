@@ -9,7 +9,7 @@ unique(covid$location)
 date = covid[covid$location=="United States",]$date
 totalCases = covid[covid$location=="United States",]$total_cases
 totalDeaths = date = covid[covid$location=="United States",]$total_deaths
-totaltests = date = covid[covid$location=="United States",]$total_tests
+totalTests = date = covid[covid$location=="United States",]$total_tests
 
 plot(date,totalCases)
 plot(date,totalDeaths)
@@ -23,9 +23,9 @@ lay <- rbind(c(1,1,2,2),
              c(1,1,3,3),
              c(4,4,5,5),
              c(4,4,6,6))
-loc <- "Italy"
-curDate <- "2020-11-20"
-for(curDate in unique(covid$date)){
+loc <- "United States"
+curDate <- "2020-12-20"
+#for(curDate in unique(covid$date)){
   curData <- covid[as.Date(covid$date, origin="2019-12-31")<=as.Date(curDate, origin = "2019-12-31"),]
   
   maxCases <- max(curData[curData$location==loc,]$new_cases, na.rm=TRUE)
@@ -72,8 +72,8 @@ for(curDate in unique(covid$date)){
           ylab("")+
           ggtitle("New Deaths")+
           scale_x_date(date_labels = "%Y-%m-%d")+
-          geom_hline(yintercept=2977, size=1, linetype="dashed", color="red")+
-          annotate("text", x=as.Date("2020-02-15"),y=3500,label="2,977 Deaths in 9/11 Attack")
+          geom_hline(yintercept=1660, size=1, linetype="dashed", color="red")+
+          annotate("text", x=as.Date("2020-03-10"),y=3000,label="1,660 die everyday from cancer")
   
   tests <- ggplot(data=curData[curData$location==loc,])+
           geom_path(aes(x=as.Date(date),y=new_tests_smoothed, color=as.Date(date, origin = "2019-12-31")), size=1)+
@@ -105,31 +105,31 @@ for(curDate in unique(covid$date)){
   
  
   ggsave(paste("./plots/",loc,"_",curDate,".jpg",sep=""), p4, width = 16, heigh=9)
-}
+#}
 
 
 
-ggplot(data=covid[which(covid$location!="World" & covid$date == "2020-03-20"),]%>%, 
-       aes(x=1, y=total_deaths, fill=location))+
-  geom_bar(stat="identity", width=1, color="black")+
-  coord_polar(theta = "y")+
-  theme_void()
+#ggplot(data=covid[which(covid$location!="World" & covid$date == "2020-03-20"),]%>%, 
+#       aes(x=1, y=total_deaths, fill=location))+
+#  geom_bar(stat="identity", width=1, color="black")+
+#  coord_polar(theta = "y")+
+#  theme_void()
 
-shifted <- covid[as.Date(covid$date, origin="2019-12-31")>as.Date("2020-01-10", origin="2019-12-31"),]
-shiftedLoc <- shifted[shifted$location==loc,]
-newDeathsSmooth <- shiftedLoc$new_deaths_smoothed
+#shifted <- covid[as.Date(covid$date, origin="2019-12-31")>as.Date("2020-01-10", origin="2019-12-31"),]
+#shiftedLoc <- shifted[shifted$location==loc,]
+#newDeathsSmooth <- shiftedLoc$new_deaths_smoothed
 
-newCasesSmooth <- covid[covid$location==loc,]$new_cases_smoothed
-days <- seq(from=1, to=length(newDeathsSmooth), by=1)
-newCasesSmooth <- newCasesSmooth[days]
-plot(newCasesSmooth,newDeathsSmooth)
-ggplot()+
-  geom_abline(slope=0.05, color="#FF0000", size = 1)+
-  geom_path(aes(x=newCasesSmooth,y=newDeathsSmooth), size=1)+
-  #geom_point(aes(x=new_cases,y=new_deaths, color=as.Date(date, origin = "2019-12-31")), size=1)+
-  xlab("New Cases")+
-  ylab("New Deaths")+
-  annotate("text", x=maxCases*0.8,y=maxCases*0.8*0.05,label="DEATH RATE = 5%")+
-  annotate("text", x=maxCases*0.1,y=maxDeaths*0.8,label="HIGH DEATH RATE")+
-  ggtitle("Shifted 14 day death rate")+
-  theme(legend.position="none", plot.title=element_text(hjust=0.5))
+#newCasesSmooth <- covid[covid$location==loc,]$new_cases_smoothed
+#days <- seq(from=1, to=length(newDeathsSmooth), by=1)
+#newCasesSmooth <- newCasesSmooth[days]
+#plot(newCasesSmooth,newDeathsSmooth)
+#ggplot()+
+#  geom_abline(slope=0.05, color="#FF0000", size = 1)+
+#  geom_path(aes(x=newCasesSmooth,y=newDeathsSmooth), size=1)+
+#  #geom_point(aes(x=new_cases,y=new_deaths, color=as.Date(date, origin = "2019-12-31")), size=1)+
+#  xlab("New Cases")+
+#  ylab("New Deaths")+
+#  annotate("text", x=maxCases*0.8,y=maxCases*0.8*0.05,label="DEATH RATE = 5%")+
+#  annotate("text", x=maxCases*0.1,y=maxDeaths*0.8,label="HIGH DEATH RATE")+
+#  ggtitle("Shifted 14 day death rate")+
+#  theme(legend.position="none", plot.title=element_text(hjust=0.5))
