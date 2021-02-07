@@ -24,7 +24,7 @@ lay <- rbind(c(1,1,2,2),
              c(4,4,5,5),
              c(4,4,6,6))
 loc <- "United States"
-curDate <- "2020-12-20"
+curDate <- "2021-02-02"
 #for(curDate in unique(covid$date)){
   curData <- covid[as.Date(covid$date, origin="2019-12-31")<=as.Date(curDate, origin = "2019-12-31"),]
   
@@ -38,7 +38,7 @@ curDate <- "2020-12-20"
           geom_point(aes(x=new_cases,y=new_deaths, color=as.Date(date, origin = "2019-12-31")), size=1)+
           xlab("New Cases")+
           ylab("New Deaths")+
-          annotate("text", x=maxCases*0.9,y=maxCases*0.9*0.05,label="DEATH RATE = 5%")+
+          annotate("text", x=maxCases*0.9,y=maxCases*0.8*0.05,label="DEATH RATE = 5%")+
           annotate("text", x=maxCases*0.1,y=maxDeaths*0.9,label="HIGH DEATH RATE")+
           ggtitle(paste(loc,curDate, sep=" "))+
           theme(legend.position="none", plot.title=element_text(hjust=0.5))
@@ -73,7 +73,7 @@ curDate <- "2020-12-20"
           ggtitle("New Deaths")+
           scale_x_date(date_labels = "%Y-%m-%d")+
           geom_hline(yintercept=1660, size=1, linetype="dashed", color="red")+
-          annotate("text", x=as.Date("2020-03-10"),y=3000,label="1,660 die everyday from cancer")
+          annotate("text", x=as.Date("2020-03-30"),y=3000,label="1,660 die everyday from cancer")
   
   tests <- ggplot(data=curData[curData$location==loc,])+
           geom_path(aes(x=as.Date(date),y=new_tests_smoothed, color=as.Date(date, origin = "2019-12-31")), size=1)+
