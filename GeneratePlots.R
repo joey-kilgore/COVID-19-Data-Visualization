@@ -24,7 +24,7 @@ lay <- rbind(c(1,1,2,2),
              c(4,4,5,5),
              c(4,4,6,6))
 loc <- "United States"
-curDate <- "2021-02-02"
+curDate <- "2021-04-04"
 #for(curDate in unique(covid$date)){
   curData <- covid[as.Date(covid$date, origin="2019-12-31")<=as.Date(curDate, origin = "2019-12-31"),]
   
@@ -33,12 +33,12 @@ curDate <- "2021-02-02"
   maxTests <- max(curData[curData$location==loc,]$new_tests, na.rm=TRUE)
   
   p1 <- ggplot(data=curData[curData$location==loc,])+
-          geom_abline(slope=0.05, color="#FF0000", size = 1)+
+          geom_abline(slope=0.02, color="#FF0000", size = 1)+
           geom_path(aes(x=new_cases_smoothed,y=new_deaths_smoothed, color=as.Date(date, origin = "2019-12-31")), size=1)+
           geom_point(aes(x=new_cases,y=new_deaths, color=as.Date(date, origin = "2019-12-31")), size=1)+
           xlab("New Cases")+
           ylab("New Deaths")+
-          annotate("text", x=maxCases*0.9,y=maxCases*0.8*0.05,label="DEATH RATE = 5%")+
+          annotate("text", x=maxCases*0.8,y=maxCases*0.8*0.02,label="DEATH RATE = 2%")+
           annotate("text", x=maxCases*0.1,y=maxDeaths*0.9,label="HIGH DEATH RATE")+
           ggtitle(paste(loc,curDate, sep=" "))+
           theme(legend.position="none", plot.title=element_text(hjust=0.5))
@@ -90,16 +90,24 @@ curDate <- "2021-02-02"
   totalCases <- todayLoc$total_cases
   totalDeaths <- todayLoc$total_deaths
   totalTests <- todayLoc$total_tests
-  totals <- c(totalTests,totalCases,totalDeaths)
-  totalsLabs <- c("Tests","Cases","Deaths")
   
-  bars <- ggplot()+
-            geom_bar(aes(x=totalsLabs,y=totals), stat="identity")+
+  deathPer1000 <- todayLoc$total_deaths_per_million/1000
+  casesPer1000 <- todayLoc$total_cases_per_million/1000
+  testsPer1000 <- todayLoc$total_tests_per_thousand
+  vaccinesPer1000 <- todayLoc$total_vaccinations_per_hundred*10
+  totalVaccinesPer1000 <- todayLoc$people_fully_vaccinated_per_hundred*10
+  totals <- c(testsPer1000,casesPer1000,deathPer1000,vaccinesPer1000,totalVaccinesPer1000)
+  totalsLabs <- c("Tests","Cases","Deaths","Vaccinated","Fully Vaccinated")
+  
+  totalData <- data.frame(x=totalsLabs, y=totals)
+  bars <- ggplot(totalData, aes(x=factor(totalData$x, c("Tests","Cases","Deaths","Vaccinated","Fully Vaccinated")),y))+
+            geom_bar(stat="identity")+
             theme(legend.position="none", plot.title = element_text(hjust = 0.5))+
             xlab("")+
             ylab("")+
-            ggtitle("Total (Log Scale)")+
-            scale_y_log10()
+            ggtitle("Totals (Per 1000)")+
+            scale_y_continuous(breaks=c(0,500, 1000))+
+            geom_text(aes(label = signif(totalData$y, digits = 4)), nudge_y=150, color="black")
   
   p4 <- grid.arrange(p1,cases,deaths,p2, tests, bars, layout_matrix=lay)
   
