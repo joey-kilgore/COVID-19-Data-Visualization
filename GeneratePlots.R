@@ -24,7 +24,7 @@ lay <- rbind(c(1,1,2,2),
              c(4,4,5,5),
              c(4,4,6,6))
 loc <- "United States"
-curDate <- "2021-04-04"
+curDate <- "2021-05-14"
 #for(curDate in unique(covid$date)){
   curData <- covid[as.Date(covid$date, origin="2019-12-31")<=as.Date(curDate, origin = "2019-12-31"),]
   
@@ -111,7 +111,7 @@ curDate <- "2021-04-04"
   
   p4 <- grid.arrange(p1,cases,deaths,p2, tests, bars, layout_matrix=lay)
   
- 
+  show(p4)
   ggsave(paste("./plots/",loc,"_",curDate,".jpg",sep=""), p4, width = 16, heigh=9)
 #}
 
