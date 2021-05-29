@@ -1,7 +1,7 @@
 # COVID-19-Data-Visualization
 This R Project is designed to help visualize the large quantity of data surrounding the SARS-CoV-2 virus and the subsequent COVID-19 disease.  
 The GeneratePlots.R script is used to create a figure comparing new cases and new deaths each day relative to eachother.
-![USA Graph](https://github.com/joey-kilgore/COVID-19-Data-Visualization/blob/master/United%20States_2021-04-04.jpg)
+![USA Graph](https://github.com/joey-kilgore/COVID-19-Data-Visualization/blob/master/United%20States_2021-05-14.jpg)
 
 # Data  
 Data is provided by [Our World In Data](https://github.com/owid/covid-19-data/tree/master/public/data) under the [Creative Commons BY License](https://creativecommons.org/licenses/by/4.0/)  
