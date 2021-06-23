@@ -24,7 +24,8 @@ lay <- rbind(c(1,1,2,2),
              c(4,4,5,5),
              c(4,4,6,6))
 loc <- "United States"
-curDate <- "2021-05-14"
+curDate <- "2021-06-14"
+mycol <- c("red", "orange", "yellow", "green", "blue", "navy", "violet")
 #for(curDate in unique(covid$date)){
   curData <- covid[as.Date(covid$date, origin="2019-12-31")<=as.Date(curDate, origin = "2019-12-31"),]
   
@@ -41,7 +42,8 @@ curDate <- "2021-05-14"
           annotate("text", x=maxCases*0.8,y=maxCases*0.8*0.02,label="DEATH RATE = 2%")+
           annotate("text", x=maxCases*0.1,y=maxDeaths*0.9,label="HIGH DEATH RATE")+
           ggtitle(paste(loc,curDate, sep=" "))+
-          theme(legend.position="none", plot.title=element_text(hjust=0.5))
+          theme(legend.position="none", plot.title=element_text(hjust=0.5))+
+          scale_color_gradientn(colours=mycol)
   
   p2 <- ggplot(data=curData[curData$location==loc,])+
           geom_abline(slope=10, color="#FF0000", size = 1)+
@@ -51,7 +53,8 @@ curDate <- "2021-05-14"
           ylab("New Tests")+
           annotate("text", x=maxCases*0.9,y=maxCases*0.9*10,label="POSITIVE RATE = 10%")+
           annotate("text", x=maxCases*0.1,y=maxTests*0.9,label="LOW POSITIVE RATE")+
-          theme(legend.position="none")
+          theme(legend.position="none")+
+          scale_color_gradientn(colours=mycol)
   
   
   cases <- ggplot(data=curData[curData$location==loc,])+
@@ -61,7 +64,8 @@ curDate <- "2021-05-14"
           xlab("")+
           ylab("")+
           ggtitle("New Cases")+
-          scale_x_date(date_labels = "%Y-%m-%d")
+          scale_x_date(date_labels = "%Y-%m-%d")+
+          scale_color_gradientn(colours=mycol)
   
 
   deaths <- ggplot(data=curData[curData$location==loc,])+
@@ -73,7 +77,8 @@ curDate <- "2021-05-14"
           ggtitle("New Deaths")+
           scale_x_date(date_labels = "%Y-%m-%d")+
           geom_hline(yintercept=1660, size=1, linetype="dashed", color="red")+
-          annotate("text", x=as.Date("2020-03-30"),y=3000,label="1,660 die everyday from cancer")
+          annotate("text", x=as.Date("2020-03-30"),y=3000,label="1,660 die everyday from cancer")+
+          scale_color_gradientn(colours=mycol)
   
   tests <- ggplot(data=curData[curData$location==loc,])+
           geom_path(aes(x=as.Date(date),y=new_tests_smoothed, color=as.Date(date, origin = "2019-12-31")), size=1)+
@@ -82,7 +87,8 @@ curDate <- "2021-05-14"
           xlab("")+
           ylab("")+
           ggtitle("New Tests")+
-          scale_x_date(date_labels = "%Y-%m-%d")
+          scale_x_date(date_labels = "%Y-%m-%d")+
+          scale_color_gradientn(colours=mycol)
   
   
   today <- curData[as.Date(curData$date, origin="2019-12-31")==as.Date(curDate, origin="2019-12-31"),]
