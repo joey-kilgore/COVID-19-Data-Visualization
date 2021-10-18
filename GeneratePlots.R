@@ -24,7 +24,7 @@ lay <- rbind(c(1,1,2,2),
              c(4,4,5,5),
              c(4,4,6,6))
 loc <- "United States"
-curDate <- "2021-08-07"
+curDate <- "2021-10-07"
 mycol <- c("red", "orange", "yellow", "green", "blue", "navy", "violet")
 #for(curDate in unique(covid$date)){
   curData <- covid[as.Date(covid$date, origin="2019-12-31")<=as.Date(curDate, origin = "2019-12-31"),]
@@ -103,10 +103,10 @@ mycol <- c("red", "orange", "yellow", "green", "blue", "navy", "violet")
   vaccinesPer1000 <- todayLoc$total_vaccinations_per_hundred*10
   totalVaccinesPer1000 <- todayLoc$people_fully_vaccinated_per_hundred*10
   totals <- c(testsPer1000,casesPer1000,deathPer1000,vaccinesPer1000,totalVaccinesPer1000)
-  totalsLabs <- c("Tests","Cases","Deaths","Vaccinated","Fully Vaccinated")
+  totalsLabs <- c("Tests","Cases","Deaths","Shots Administered","Fully Vaccinated")
   
   totalData <- data.frame(x=totalsLabs, y=totals)
-  bars <- ggplot(totalData, aes(x=factor(totalData$x, c("Tests","Cases","Deaths","Vaccinated","Fully Vaccinated")),y))+
+  bars <- ggplot(totalData, aes(x=factor(totalData$x, c("Tests","Cases","Deaths","Shots Administered","Fully Vaccinated")),y))+
             geom_bar(stat="identity")+
             theme(legend.position="none", plot.title = element_text(hjust = 0.5))+
             xlab("")+
