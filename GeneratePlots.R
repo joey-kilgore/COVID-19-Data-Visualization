@@ -24,7 +24,7 @@ lay <- rbind(c(1,1,2,2),
              c(4,4,5,5),
              c(4,4,6,6))
 loc <- "United States"
-curDate <- "2021-12-25"
+curDate <- "2022-02-14"
 mycol <- c("red", "orange", "yellow", "green", "blue", "navy", "violet")
 #for(curDate in unique(covid$date)){
   curData <- covid[as.Date(covid$date, origin="2019-12-31")<=as.Date(curDate, origin = "2019-12-31"),]
@@ -39,8 +39,8 @@ mycol <- c("red", "orange", "yellow", "green", "blue", "navy", "violet")
           geom_point(aes(x=new_cases,y=new_deaths, color=as.Date(date, origin = "2019-12-31")), size=1)+
           xlab("New Cases")+
           ylab("New Deaths")+
-          annotate("text", x=maxCases*0.8,y=maxCases*0.8*0.02,label="DEATH RATE = 2%")+
-          annotate("text", x=maxCases*0.1,y=maxDeaths*0.9,label="HIGH DEATH RATE")+
+          annotate("text", x=maxCases*0.5,y=maxCases*0.5*0.02,label="DEATH RATE = 2%")+
+          annotate("text", x=maxCases*0.1,y=maxDeaths*1.5,label="HIGH DEATH RATE")+
           ggtitle(paste(loc,curDate, sep=" "))+
           theme(legend.position="none", plot.title=element_text(hjust=0.5))+
           scale_color_gradientn(colours=mycol)
@@ -51,8 +51,8 @@ mycol <- c("red", "orange", "yellow", "green", "blue", "navy", "violet")
           geom_point(aes(x=new_cases,y=new_tests, color=as.Date(date, origin = "2019-12-31")), size=1)+
           xlab("New Cases")+
           ylab("New Tests")+
-          annotate("text", x=maxCases*0.9,y=maxCases*0.9*10,label="POSITIVE RATE = 10%")+
-          annotate("text", x=maxCases*0.1,y=maxTests*0.9,label="LOW POSITIVE RATE")+
+          annotate("text", x=maxCases*0.5,y=maxCases*0.5*10,label="POSITIVE RATE = 10%")+
+          annotate("text", x=maxCases*0.1,y=maxTests*1.5,label="LOW POSITIVE RATE")+
           theme(legend.position="none")+
           scale_color_gradientn(colours=mycol)
   
